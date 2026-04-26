@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manger | Protofolio Expert</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #333;
+            transition: all 0.4s ease;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        body.dark-mode {
+            background-color: #0f0f0f;
+            color: #f4f4f4;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        body.dark-mode nav { background: rgba(15, 15, 15, 0.9); border-bottom: 1px solid #222; }
+
+        .logo { font-size: 1.5rem; font-weight: bold; color: #00acc1; }
+        .nav-right { display: flex; align-items: center; gap: 25px; }
+        .nav-links { list-style: none; display: flex; gap: 30px; }
+        .nav-links a { text-decoration: none; color: inherit; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: #00acc1; }
+
+        #theme-toggle { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: inherit; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 100px 8% 50px;
+        }
+
+        .hero-text { flex: 1; }
+        .hero-text h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 15px; }
+        .hero-text h3 { color: #00acc1; font-weight: 400; font-size: 1.8rem; margin-bottom: 20px; }
+        .hero-text p { color: #666; max-width: 500px; margin-bottom: 30px; font-size: 1.1rem; }
+        body.dark-mode .hero-text p { color: #bbb; }
+
+        .hero-image img { width: 100%; max-width: 450px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+
+        /* Professional About Section */
+        .about-section {
+            padding: 120px 8%;
+            display: flex;
+            gap: 70px;
+            align-items: center;
+            background: #fdfdfd;
+        }
+
+        body.dark-mode .about-section { background: #161616; }
+
+        .about-image-container { position: relative; flex: 1; }
+        .about-image-container img {
+            width: 100%;
+            max-width: 380px;
+            border: 10px solid #00acc1;
+            border-radius: 12px;
+            display: block;
+        }
+
+        .exp-badge {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: #00acc1;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            z-index: 5;
+        }
+
+        .about-content { flex: 1.5; }
+        .about-content h4 { color: #00acc1; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 10px; }
+        .about-content h2 { font-size: 2.5rem; margin-bottom: 20px; line-height: 1.2; }
+        .about-content p { color: #666; margin-bottom: 25px; font-size: 1.05rem; }
+        body.dark-mode .about-content p { color: #bbb; }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .detail-item { font-size: 1rem; }
+        .detail-item b { color: #00acc1; margin-right: 5px; }
+
+        .btn-group { display: flex; gap: 15px; }
+
+        .btn-download-active {
+            padding: 14px 45px;
+            background: #00acc1;
+            color: white;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 172, 193, 0.3);
+        }
+
+        /* Qualification Section */
+        .qualifications { 
+            padding: 100px 8%; 
+            background-color: #fcfcfc; 
+        }
+        body.dark-mode .qualifications { background-color: #121212; }
+
+        .qual-header { text-align: center; margin-bottom: 60px; }
+        .qual-header h2 { font-size: 2.8rem; font-weight: 800; }
+        .underline { width: 80px; height: 5px; background: #00acc1; margin: 15px auto; border-radius: 10px; }
+
+        .qual-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .qual-card-v2 {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+            transition: 0.4s ease;
+            border: 1px solid rgba(0,0,0,0.03);
+            overflow: hidden;
+        }
+        body.dark-mode .qual-card-v2 { background: #1a1a1a; border-color: #222; }
+
+        .qual-card-v2:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 172, 193, 0.15);
+        }
+
+        .qual-card-v2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: #00acc1;
+        }
+
+        .qual-icon-box {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 172, 193, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #00acc1;
+            margin-bottom: 25px;
+        }
+
+        .qual-card-v2 h4 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #222;
+        }
+        body.dark-mode .qual-card-v2 h4 { color: #fff; }
+
+        .qual-card-v2 .institute {
+            color: #00acc1;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .qual-card-v2 .year-tag {
+            background: #222;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        body.dark-mode .qual-card-v2 .year-tag { background: #00acc1; }
+
+        /* Experience Section */
+        .experience-section { padding: 100px 8%; background: #ffffff; }
+        body.dark-mode .experience-section { background: #0f0f0f; }
+        
+        .experience-timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .exp-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .exp-item::before {
+            content: '';
+            position: absolute;
+            left: 17px;
+            top: 40px;
+            height: 100%;
+            width: 2px;
+            background: #00acc1;
+            opacity: 0.2;
+        }
+
+        .exp-item:last-child::before { display: none; }
+
+        .exp-dot {
+            min-width: 36px;
+            height: 36px;
+            background: #00acc1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .exp-info {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 15px;
+            flex: 1;
+            transition: 0.3s;
+        }
+        body.dark-mode .exp-info { background: #1a1a1a; }
+        .exp-info:hover { transform: translateX(10px); background: #f0fbff; }
+        body.dark-mode .exp-info:hover { background: #222; }
+
+        .exp-date { color: #00acc1; font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; display: block; }
+        .exp-title { font-size: 1.3rem; margin-bottom: 5px; }
+        .exp-org { color: #666; font-weight: 600; margin-bottom: 10px; display: block; }
+        body.dark-mode .exp-org { color: #aaa; }
+        .exp-scope { font-size: 0.95rem; color: #555; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;}
+        body.dark-mode .exp-scope { color: #bbb; border-top: 1px solid #333; }
+
+        /* Skills Section */
+        .work-process { padding: 100px 8%; background: #f8f9fa; display: flex; gap: 50px; align-items: flex-start; }
+        body.dark-mode .work-process { background: #161616; }
+        .process-text { flex: 1; position: sticky; top: 120px; }
+        .process-grid { flex: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .process-box { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: 0.3s; }
+        body.dark-mode .process-box { background: #222; }
+        .process-box:hover { transform: translateY(-5px); border-bottom: 4px solid #00acc1; }
+        .process-icon { width: 40px; height: 40px; background: #e0f7fa; color: #00acc1; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin-bottom: 15px; font-weight: bold; }
+
+        .strict-eye-note { padding: 60px 8%; text-align: center; background: #f8f9fa; }
+        body.dark-mode .strict-eye-note { background: #161616; }
+        .note-box { display: inline-block; padding: 25px 40px; border-left: 5px solid #00acc1; background: rgba(0, 172, 193, 0.05); font-style: italic; font-size: 1.1rem; max-width: 800px; }
+
+        /* --- PROFESSIONAL CONTACT SECTION --- */
+        .contact-section { padding: 100px 8%; background: #ffffff; }
+        body.dark-mode .contact-section { background: #0f0f0f; }
+        .contact-container { display: flex; gap: 50px; max-width: 1100px; margin: 0 auto; }
+        
+        .contact-info { flex: 1; }
+        .info-card-v3 {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: #fcfcfc;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #f0f0f0;
+            transition: 0.3s;
+        }
+        body.dark-mode .info-card-v3 { background: #1a1a1a; border-color: #222; }
+        .info-card-v3:hover { border-color: #00acc1; transform: translateX(5px); }
+
+        .info-icon { width: 50px; height: 50px; background: rgba(0, 172, 193, 0.1); color: #00acc1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        
+        .info-text span { display: block; font-size: 0.75rem; font-weight: bold; color: #00acc1; text-transform: uppercase; margin-bottom: 3px; }
+        .info-text p { font-weight: 600; font-size: 0.95rem; }
+
+        .contact-form { flex: 1.5; background: #f9f9f9; padding: 40px; border-radius: 20px; }
+        body.dark-mode .contact-form { background: #1a1a1a; }
+        
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 10px; background: #fff; color: #333; font-size: 1rem; }
+        body.dark-mode .form-group input, body.dark-mode .form-group textarea { border-color: #333; background: #222; color: #fff; }
+        
+        .btn-submit { background: #00acc1; color: white; border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; letter-spacing: 1px; }
+        .btn-submit:hover { opacity: 0.9; transform: scale(1.02); box-shadow: 0 5px 15px rgba(0, 172, 193, 0.3); }
+
+        .social-connect { display: flex; gap: 10px; margin-top: 20px; }
+        .social-btn { text-decoration: none; flex: 1; color: white; padding: 12px; border-radius: 10px; text-align: center; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .social-btn:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        /* Responsive Fixes */
+        @media (max-width: 992px) {
+            .nav-links { display: none; } /* Hide links for simple mobile look */
+            .hero { flex-direction: column-reverse; text-align: center; padding-top: 120px; height: auto; gap: 40px; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-text h3 { font-size: 1.4rem; }
+            .hero-image img { max-width: 300px; }
+
+            .about-section { flex-direction: column; text-align: center; gap: 40px; padding: 80px 8%; }
+            .about-image-container img { max-width: 280px; margin: 0 auto; }
+            .exp-badge { right: 10%; bottom: -10px; }
+            .details-grid { grid-template-columns: 1fr; }
+
+            .qual-header h2 { font-size: 2rem; }
+            .qual-grid { grid-template-columns: 1fr; }
+
+            .work-process { flex-direction: column; text-align: center; }
+            .process-text { position: static; margin-bottom: 40px; }
+            .process-grid { grid-template-columns: 1fr; }
+
+            .experience-timeline { padding: 0 5%; }
+            .exp-item { flex-direction: column; align-items: center; text-align: center; }
+            .exp-item::before { left: 50%; transform: translateX(-50%); }
+            .exp-info:hover { transform: translateY(-5px); }
+
+            .contact-container { flex-direction: column; }
+            .form-row { grid-template-columns: 1fr; }
+            .contact-form { padding: 25px; }
+            .btn-group { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">● Hamad</div>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#process">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button id="theme-toggle">🌙</button>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-text">
+            <h1>I'm  Hamad</h1>
+            <h3>Professional <span style="color: #00acc1;">Web Designer</span></h3>
+            <p>13+ years of expertise in Infrastructure, QC Engineering, and Building Structure Supervision across Pakistan.</p>
+            <a href="#about" class="btn-download-active">Explore More</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://uploads.onecompiler.io/448pnun66/4497aenwr/Screenshot%202025-08-07%20224521.jpg" alt="Profile">
+        </div>
+    </section>
+
+    <section class="about-section" id="about">
+        <div class="about-image-container">
+            <div class="exp-badge">
+                <h2 style="font-size: 2rem; line-height: 1;">13+</h2>
+                <p style="font-size: 0.7rem; text-transform: uppercase; font-weight: bold; letter-spacing: 1px;">Years Exp.</p>
+            </div>
+            <img src="https://uploads.onecompiler.io/448pnun66/4497aenwr/Screenshot%202025-08-07%20224521.jpg" alt="Engineer">
+        </div>
+        <div class="about-content">
+            <h4>Engineering Excellence</h4>
+            <h2>Leading Large-Scale Construction Projects Since 2013.</h2>
+            <p>
+                From Highway Motorways with FWO to Private Sector Underpasses, I have led technical teams to deliver structural integrity and high-quality architectural results. 
+            </p>
+            <div class="details-grid">
+                <div class="detail-item"><b>Expertise:</b> Infrastructure & QC</div>
+                <div class="detail-item"><b>Location:</b> Faisalabad, PAK</div>
+                <div class="detail-item"><b>Projects:</b> Motorways, Dams, Urban</div>
+                <div class="detail-item"><b>Team:</b> Design & Site Lead</div>
+            </div>
+            <div class="btn-group">
+                <a href="cv.pdf" download class="btn-download-active">Download CV</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="qualifications">
+        <div class="qual-header">
+            <h4>Education</h4>
+            <h2>Academic Qualification</h2>
+            <div class="underline"></div>
+        </div>
+        
+        <div class="qual-grid">
+            <div class="qual-card-v2">
+                <div class="qual-icon-box">🏗️</div>
+                <span class="institute">PBTE Lahore, PAK</span>
+                <h4>DAE - Civil Engineering</h4>
+                <p style="margin-bottom: 20px; color: #666;">Specialized in Civil Construction, Structural Mechanics, and Surveying.</p>
+                <span class="year-tag">Batch 2012</span>
+            </div>
+
+            <div class="qual-card-v2">
+                <div class="qual-icon-box">🎓</div>
+                <span class="institute">Faisalabad Board, PAK</span>
+                <h4>Matriculation</h4>
+                <p style="margin-bottom: 20px; color: #666;">Core Science subjects with a strong foundation in Mathematics and Physics.</p>
+                <span class="year-tag">Batch 2009</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="experience-section" id="experience">
+        <div class="qual-header">
+            <h2>Work Experience History</h2>
+            <div class="underline"></div>
+        </div>
+
+        <div class="experience-timeline">
+            
+            <div class="exp-item">
+                <div class="exp-dot">01</div>
+                <div class="exp-info">
+                    <span class="exp-date">Sep 2025 - Present</span>
+                    <h3 class="exp-title">Senior Construction Manager</h3>
+                    <span class="exp-org">Ilahi Developers (Eden Orchard, Pine Valley)</span>
+                    <p class="exp-scope"><b>Scope:</b> Team lead for Site Civil work and infrastructure (Roads, Drains, Culverts, Parks) and Design Team lead.</p>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-dot">02</div>
+                <div class="exp-info">
+                    <span class="exp-date">Sep 2021 - Jul 2025</span>
+                    <h3 class="exp-title">Construction Manager</h3>
+                    <span class="exp-org">Mehar Estate Developers</span>
+                    <p class="exp-scope"><b>Highlights:</b> Completed Faisalabad’s 1st private made underpass. Supervision of Infrastructure & Finishing works across Ismail Valley/Green.</p>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-dot">03</div>
+                <div class="exp-info">
+                    <span class="exp-date">Apr 2021 - Sep 2021</span>
+                    <h3 class="exp-title">Deputy Construction Manager</h3>
+                    <span class="exp-org">Blue Group of Companies (Blue World City)</span>
+                    <p class="exp-scope"><b>Scope:</b> Infrastructure works leadership including Roads, Drains, and Finishing works in Islamabad.</p>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-dot">04</div>
+                <div class="exp-info">
+                    <span class="exp-date">Oct 2020 - Mar 2021</span>
+                    <h3 class="exp-title">Deputy Construction Manager</h3>
+                    <span class="exp-org">Kingcrete Builders (DHA Bahawalpur)</span>
+                    <p class="exp-scope"><b>Projects:</b> Office Complex, Banquet Hall, CMH & IMS. Lead supervision of RCC & Grey works.</p>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-dot">05</div>
+                <div class="exp-info">
+                    <span class="exp-date">Feb 2018 - Sep 2020</span>
+                    <h3 class="exp-title">Site Engineer / Deputy Construction Manager</h3>
+                    <span class="exp-org">Frontier Works Organization (FWO)</span>
+                    <p class="exp-scope"><b>Projects:</b> Kurram Tangi Dam, Hakla-DI Khan Motorway, Islamia College Peshawar, OBR Karak-Bannu. Bridge structures & RCC infrastructure.</p>
+                </div>
+            </div>
+
+            <div class="exp-item">
+                <div class="exp-dot">06</div>
+                <div class="exp-info">
+                    <span class="exp-date">Jan 2013 - Feb 2018</span>
+                    <h3 class="exp-title">Site Engineer / Sub Engineer</h3>
+                    <span class="exp-org">Babar Construction Company</span>
+                    <p class="exp-scope"><b>Projects:</b> UNDP Old Roads Bahawalpur, Water Filtration Plants, Faisalabad Airport Approach (CAA).</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="work-process" id="process">
+        <div class="process-text">
+            <h4 style="color: #00acc1; font-weight: bold; text-transform: uppercase;">Technical Mastery</h4>
+            <h2>QC & Management</h2>
+            <p>Specialized in high-pressure project environments and technical compliance.</p>
+        </div>
+        <div class="process-grid">
+            <div class="process-box">
+                <div class="process-icon">✔</div>
+                <h4>Project Quality (PQP)</h4>
+                <p>Implementation of Method Statements, Checklists, and Filing RFI as per project requirements.</p>
+            </div>
+            <div class="process-box">
+                <div class="process-icon">✔</div>
+                <h4>Field Supervision</h4>
+                <p>Concrete, Steel, Post-tensioning, Waterproofing, and Architectural finishes conformity.</p>
+            </div>
+            <div class="process-box">
+                <div class="process-icon">✔</div>
+                <h4>Technical Review</h4>
+                <p>Leading Technical Review of Drawings and resolving site issues with Consultants/Clients.</p>
+            </div>
+            <div class="process-box">
+                <div class="process-icon">✔</div>
+                <h4>Team Leadership</h4>
+                <p>Managing large site teams, design teams, and attending construction strategy meetings.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="qual-header">
+            <h4>Get In Touch</h4>
+            <h2>Contact Me</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="info-card-v3">
+                    <div class="info-icon">📍</div>
+                    <div class="info-text">
+                        <span>Location</span>
+                        <p> Faisalabad, Pakistan</p>
+                    </div>
+                </div>
+                <div class="info-card-v3">
+                    <div class="info-icon">📞</div>
+                    <div class="info-text">
+                        <span>Phone / WhatsApp</span>
+                        <p>+92 300 03556756</p>
+                    </div>
+                </div>
+                <div class="info-card-v3">
+                    <div class="info-icon">📧</div>
+                    <div class="info-text">
+                        <span>Email Address</span>
+                        <p>darkangelinkhan@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="social-connect">
+                    <a href="https://wa.me/923000852756" class="social-btn" style="background: #25D366;">WhatsApp Me</a>
+                    <a href="linkedin.com/in/ahsan-3a9070190" class="social-btn" style="background: #0077b5;">LinkedIn</a>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form action="#">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Subject (e.g. Project Inquiry)">
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" placeholder="How can I assist you with your construction project?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">SEND MESSAGE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="strict-eye-note">
+        <div class="note-box">
+            "I keep a strict eye on Consultant & Client requirements to ensure better quality of work and strict adherence to project specifications."
+        </div>
+    </section>
+
+    <footer style="padding: 40px; text-align: center; color: #888; border-top: 1px solid #eee;">
+        © 2026 Absal Khan, Pakistan.
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggle.innerText = document.body.classList.contains('dark-mode') ? "☀️" : "🌙";
+        });
+    </script>
+</body>
+</html>
